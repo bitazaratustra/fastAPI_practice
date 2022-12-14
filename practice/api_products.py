@@ -47,3 +47,18 @@ def delete_prduct_by_id(product_id: str):
         products.remove(product)
         return {'Message': f'Product with ID {product_id} was deleted'}
     raise HTTPException(status_code=404, detail=f'The product with the ID {product_id} was not found')
+
+
+@app.put('/product/{product_id}')
+def product_update(product_id: str, product: Product):
+    result = list(filter(lambda p: p.id == product_id, products))
+    if len(result):
+        product_founded =  result[0]
+        product_founded.name = product.name
+        product_founded.buy_price = product.buy_price
+        product_founded.sell_price = product.sell_price
+        product_founded.provider = product.provider
+
+        return product_founded
+
+    raise HTTPException(status_code=404, detail=f'The product with the ID {product_id} was not found')
