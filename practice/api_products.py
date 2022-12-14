@@ -37,3 +37,13 @@ def get_product_by_id(product_id: str):
     if len(result):
         return result[0]
     raise HTTPException(status_code=404, detail=f'The product with the ID {product_id} was not found')
+
+
+@app.delete('/product/{product_id}')
+def delete_prduct_by_id(product_id: str):
+    result = list(filter(lambda p: p.id == product_id, products))
+    if len(result):
+        product =  result[0]
+        products.remove(product)
+        return {'Message': f'Product with ID {product_id} was deleted'}
+    raise HTTPException(status_code=404, detail=f'The product with the ID {product_id} was not found')
