@@ -14,10 +14,20 @@ async def read_items(
         description="Query string for the items to search in the database that have a good match",
         min_length=3,
         max_length=50,
-        regex="^fixedquery$",
+        regex="^fixquery$",
         deprecated=True,
     )
 ):
+    results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
+    if q:
+        results.update({"q": q})
+    return results
+
+
+
+
+@app.get("/items/items")
+async def read_items(q: str = Query(default="fixquery", min_length=3)):
     results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
     if q:
         results.update({"q": q})
