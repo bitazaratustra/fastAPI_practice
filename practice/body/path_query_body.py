@@ -26,3 +26,25 @@ async def update_item(
     if item:
         results.update({"item": item})
     return results
+
+
+
+# Multple body parameters
+
+
+class Item2(BaseModel):
+    name: str
+    description: Union[str, None] = None
+    price: float
+    tax: Union[float, None] = None
+
+
+class User(BaseModel):
+    username: str
+    full_name: Union[str, None] = None
+
+
+@app.put("/items/multiple/{item_id}")
+async def update_item(item_id: int, item: Item2, user: User):
+    results = {"item_id": item_id, "item": item, "user": user}
+    return results
