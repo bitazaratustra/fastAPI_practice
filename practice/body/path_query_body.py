@@ -1,6 +1,6 @@
 from typing import Union
 
-from fastapi import FastAPI, Path
+from fastapi import FastAPI, Path, Body
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -31,20 +31,33 @@ async def update_item(
 
 # Multple body parameters
 
-
-class Item2(BaseModel):
-    name: str
-    description: Union[str, None] = None
-    price: float
-    tax: Union[float, None] = None
-
-
 class User(BaseModel):
     username: str
     full_name: Union[str, None] = None
 
 
 @app.put("/items/multiple/{item_id}")
-async def update_item(item_id: int, item: Item2, user: User):
+async def update_item(item_id: int, item: Item, user: User):
     results = {"item_id": item_id, "item": item, "user": user}
+    return results
+
+
+@app.put("/items/importance/{item_id}")
+async def update_item(item_id: int, item: Item, user: User, importance: int = Body(default=None)):
+    results = {"item_id": item_id, "item": item, "user": user, "importance": importance}
+    return results
+
+
+@app.put("/items/multiple_bodies_params{item_id}")
+async def update_item(
+    *,
+    item_id: int,
+    item: Item,
+    user: User,
+    importance: int = Body(default=1, gt=0),
+    q: Union[str, None] = None
+):
+    results = {"item_id": item_id, "item": item, "user": user, "importance": importance}
+    if q:
+        results.update({"q": q})
     return results
