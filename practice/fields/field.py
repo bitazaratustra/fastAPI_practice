@@ -15,6 +15,6 @@ class Item (BaseModel):
 
 
 @app.put("/items/{item_id}")
-async def update_item(item_id: int, item: Item = Body(embded=True, default=None)):
+async def update_item(item_id: int, item: Item = Body(embded=False, default=None)):
     results = {'item_id': item_id, 'item': item}
     return results
