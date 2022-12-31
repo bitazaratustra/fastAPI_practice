@@ -11,6 +11,7 @@ app = FastAPI()
 class Image(BaseModel):
     url: HttpUrl
     name: str
+    enterprice: str
 
 
 class Item(BaseModel):
