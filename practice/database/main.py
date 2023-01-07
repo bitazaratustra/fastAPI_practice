@@ -10,6 +10,6 @@ engine = create_engine(SQLALCHAMY_DATABASE_URL, connect_args={'check_same_thread
 
 models.Base.metadata.create_all(engine)
 
-@app.post('/blog')
-async def create (request: schemas.Blog):
-    return request
+@app.post('/blogs')
+def Blog (Base):
+    return
